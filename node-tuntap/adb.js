@@ -19,7 +19,7 @@ var adbPath = '../' + os.platform() + '/adb';
 if (os.platform() == 'win32')
   adbPath = (adbPath + '.exe').replace(/\//g, '\\');
 
-adbPath = '"' + path.join(process.cwd(), adbPath) + '"';
+adbPath = '/usr/bin/adb';
 
 console.log('adb binary path: ' + adbPath);
 
