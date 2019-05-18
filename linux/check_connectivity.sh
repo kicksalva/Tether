@@ -20,7 +20,7 @@ fi
 
 # check if tether client is running
 pgrep -f "linux/run.sh" &> /dev/null
-if [ $? -eq 1]; then
+if [ $? -eq 1 ]; then
     echo "No tether process running"
     continue
 fi
