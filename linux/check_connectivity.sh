@@ -2,17 +2,32 @@
 
 max_consecutive_failures=1
 
+tetherlog=/tmp/tether_log
+
+cat <<< "0
+0" > "$tetherlog"
+
+while true; do
+
+sleep 5
+
 # check if adb device detected
 adb devices | grep -v "devices" | grep "device" &> /dev/null
 if [ $? -eq 1 ]; then
-    # exit if no adb device present
-    exit 0
+    echo "No adb devices detected"
+    continue
+fi
+
+# check if tether client is running
+pgrep -f "linux/run.sh" &> /dev/null
+if [ $? -eq 1]; then
+    echo "No tether process running"
+    continue
 fi
 
 # init/read counter from file
 counter=0
 num_restarts=0
-tetherlog=/tmp/tether_log
 if [ -f "$tetherlog" ]; then
     counter=$(head -n 1 $tetherlog)
     num_restarts=$(head -n 2 $tetherlog | tail -n 1)
@@ -43,3 +58,5 @@ fi
 # save to file for next time the cron job runs
 cat <<< "$counter
 $num_restarts" > "$tetherlog"
+
+done
