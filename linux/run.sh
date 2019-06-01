@@ -36,4 +36,4 @@ popd
 echo Starting Tether...
 cd $DIR/../node-tuntap
 ../linux/adb start-server
-$NODE/node tether.js
+nice -n -20 $NODE/node tether.js

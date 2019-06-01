@@ -23,6 +23,12 @@ var platform = require('./platform');
 
 var tun = require('./tuntap');
 
+var log_file = fs.createWriteStream('../tether.log', {flags : 'w'});
+
+console.log = function(d) {
+  log_file.write(util.format(d) + '\n');
+};
+
 var myWorker;
 var t;
 function createTun(withWorker) {
